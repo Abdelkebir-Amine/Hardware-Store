@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des produits</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        .btn-outline-success {
+            border-color: #17a2b8;
+            color: #17a2b8;
+        }
+        .btn-outline-success:hover {
+            background-color: #17a2b8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barre de navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" th:href="@{/home}"><strong>Quincaillerie En Ligne</strong></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/home}">Accueil <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/gererProduit}">Les Produits</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/ajouterCommande}">Passer Commande</a>
+                </li>
+            </ul>
+            <form method=get th:action="@{/gererProduit}" class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" id="motCle" name=motCle th:value="${motCle}" placeholder="Nom du produit" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Chercher</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="card m-5 p-2">
+        <div class="col-md-1">
+            <a th:href="@{/ajouterProduit}" class="btn btn-info">
+                <i class="fas fa-plus"></i> Nouveau produit
+            </a>
+        </div>
+        <br>
+        <div class="card-header"><h2>Liste des produits</h2></div>
+        <br>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Réf. Produit</th>
+                <th>Photo</th>
+                <th>Nom du produit</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="produit:${data}">
+                <td th:text="${'#'+produit.id}"></td>
+                <td th:if="${produit.nomImage == '' || produit.nomImage == null}">
+                    <img src="/photos/inconnu.jpg" width="50" height="50">
+                </td>
+                <td th:unless="${produit.nomImage == '' || produit.nomImage == null}">
+                    <img th:src="@{${'/photos/'+produit.nomImage}}" width="50" height="50">
+                </td>
+                <td th:text="${produit.nom}"></td>
+                <td>
+                    <a th:href="@{/editProduit/{id}(id=${produit.id})}" class="fa fa-edit btn btn-warning"></a>
+                    <a th:href="@{/deleteProduit/{id}(id=${produit.id})}" class="fa fa-trash btn btn-danger"></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <ul class="nav nav-pills">
+            <li th:each="i,c:${pages}">
+                <a th:href="@{/gererProduit(page=${c.count},motCle=${motCle})}"
+                   th:text="${c.count}" th:class="${current==c.count-1}?'btn btn-primary mx-2':'btn btn-outline-primary mx-2'"></a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

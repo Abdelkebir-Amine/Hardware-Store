@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Quincaillerie En Ligne - Détails Commande</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+    <!-- Barre de navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" th:href="@{/home}"><strong>Quincaillerie En Ligne</strong></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/home}">Accueil <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/gererProduit}">Les Produits</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/ajouterCommande}">Passer Commande</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Partie d'affichage -->
+    <div class=container>
+      <div class="card m-5 p-2">
+        <div class="card-header"><h2>Détails d'une commande</h2></div>
+        <div class="card-body">
+            <!-- Commande n° -->
+            <div class="form-group">
+                <h5 style="display: inline-block;"><strong> Commande n° : </strong></h5>
+                <h6 style="display: inline-block; margin-left: 5px;" th:text="${commande.id}"></h6>
+            </div>
+            <!-- Client Commande n°-->
+            <div class="form-group">
+                <h5 style="display: inline-block;"><strong> Client : </strong></h5>
+                <h6 style="display: inline-block; margin-left: 5px;" th:text="${client.nom}"></h6>
+            </div>
+            <!-- Date -->
+            <div class="form-group">
+                <h5 style="display: inline-block;"><strong> Effectuée le : </strong></h5>
+                <h6 style="display: inline-block; margin-left: 5px;" th:text="${commande.date}"></h6>
+            </div>
+            <!-- Liste des produits de la commande -->
+            <div class="form-group">
+                <h5 style="display: inline-block;"><strong> Liste des produits : </strong></h5>
+                <br><br>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Réf. Produit</th>
+                        <th>Image</th>
+                        <th>Nom</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="produit:${produitsSelected}">
+                        <td th:text="${'#'+produit.id}"></td>
+                        <td th:text="${produit.nom}"></td>
+                        <td th:if="${produit.nomImage == '' || produit.nomImage == null}">
+                            <img src="/photos/inconnu.jpg" width="50" height="50">
+                        </td>
+                        <td th:unless="${produit.nomImage == '' || produit.nomImage == null}">
+                            <img th:src="@{${'/photos/'+produit.nomImage}}" width="50" height="50">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+    </div>
+</body>
+</html>

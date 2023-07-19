@@ -1,0 +1,15 @@
+
+
+General info :
+
+1. The app allows users to manage products from a hardware store and place an order.
+
+2. DB name = onlineStore (mySql).
+
+3. DB Tables = Client(id,nom) | Produit(id,nom,nom_image) | Commande(id,date,client_id) | commande_produit(commande_id,produit_id).
+
+4.  In this project, I have a OneToMany relationship between Customer and Order (a customer can place multiple orders), a ManyToOne relationship between Order and Customer (an order belongs to a single customer), and a ManyToMany relationship between Order and Product (an order can contain several products and a product can belong to several orders).
+
+5. Working environment :
+* IntelliJ development environment
+* jdk-11.0.17

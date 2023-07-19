@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Ajouter un produit</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+  <!-- Barre de navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" th:href="@{/home}"><strong>Quincaillerie En Ligne</strong></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/home}">Accueil <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" th:href="@{/gererProduit}">Les Produits</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/ajouterCommande}">Passer Commande</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- Formulaire d'ajout -->
+  <br>
+  <div class=container>
+    <div class="card m-5 p-2">
+      <div class="card-header"><h2>Ajouter Produit</h2></div>
+      <div class="card-body">
+        <form method="post" enctype="multipart/form-data" th:action="@{/saveProduit}" th:object="${produit}">
+          <div class="form-group">
+            <label for="nom">Nom:</label>
+            <input type="text" name="nom" class="form-control" id="nom" th:value="${produit.nom}" th:field="*{nom}" >
+            <h6 th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}" style="color: red"></h6>
+          </div>
+          <div>
+            <label class="form-label">Photo</label>
+            <input type="file" accept="image/*" name=file>
+            <input type="hidden" name="nomImage" th:value="${produit.nomImage}">
+          </div>
+          <br>
+          <input type="hidden" name="id" th:value="${produit.id}">
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
